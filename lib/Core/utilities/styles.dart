@@ -43,4 +43,10 @@ abstract class Styles {
     fontFamily: 'Poppins', 
     fontWeight: FontWeight.w500,
   );
+   static const newrecordtitle = TextStyle(
+    color: Color(0XFF263238),
+    fontSize: 18,
+    fontFamily: 'Poppins', 
+    fontWeight: FontWeight.bold,
+  );
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test/Features/records/presentation/views/widgets/custom_app_bar.dart';
+import 'package:test/Core/utilities/custom_app_bar.dart';
 import 'package:test/Features/records/presentation/views/widgets/manage_your_record_body.dart';
 
 class ManageYourRecordView extends StatelessWidget {

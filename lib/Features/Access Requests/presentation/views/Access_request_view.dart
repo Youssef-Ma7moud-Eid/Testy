@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test/Features/Access%20Requests/presentation/views/widgets/access_requests_body.dart';
-import 'package:test/Core/utilities/custom_app_bar.dart';
+import 'package:test/Features/Access%20Requests/custom_app_bar.dart';
 
 class AccessRequestView extends StatelessWidget {
   const AccessRequestView({super.key});

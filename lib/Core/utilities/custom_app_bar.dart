@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:test/Core/utilities/styles.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBarRecord extends StatelessWidget
+    implements PreferredSizeWidget {
   final String title;
-
-  const CustomAppBar({super.key, required this.title});
+   
+  const CustomAppBarRecord({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      leading: BackButton(
+        style: ButtonStyle(),
+        color: Colors.white,
+      ),
       centerTitle: true,
       toolbarHeight: 95,
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 12, 128, 120),
+              Color.fromARGB(255, 39, 207, 196),
+              Color(0XFF46ACA6),
               Color(0XFF03C5B9),
             ],
           ),
@@ -23,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Text(
         title,
-        style: Styles.textStyleAppBar,
+       style: Styles.recordappbar.copyWith(fontSize: 25),
       ),
     );
   }
