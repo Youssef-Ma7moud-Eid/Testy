@@ -30,7 +30,7 @@ class RecordItemBody extends StatelessWidget {
                 GoRouter.of(context).push(AppRouter.knewrecordview);
               },
             );
-          } else if (list.isNotEmpty) {
+          } else {
             List<RecordModel> lists = list;
             return ListView.builder(
               itemCount: lists.length,
@@ -39,12 +39,6 @@ class RecordItemBody extends StatelessWidget {
                   record: lists[index],
                 );
               },
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Styles.recordappbar.color,
-              ),
             );
           }
         },

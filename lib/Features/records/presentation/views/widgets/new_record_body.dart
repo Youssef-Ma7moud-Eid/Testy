@@ -41,9 +41,9 @@ class _NewRecordBodyState extends State<NewRecordBody> {
             builder: (context, state) {
               if (state is SuccessProcessImage) {
                 record.image = state.image as File?;
-                return DisplayRecordImage(image: state.image);
+                return DisplayRecordImage(record: record);
               } else if (state is LoadingImage) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(
                     color: Colors.blue,
                   ),

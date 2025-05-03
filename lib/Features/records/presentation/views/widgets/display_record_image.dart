@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:test/Features/records/data/models/record_model.dart';
 import 'package:test/Features/records/presentation/manager/manage_record_image/manage_upload_image_cubit.dart';
 
 class DisplayRecordImage extends StatelessWidget {
-  const DisplayRecordImage({super.key, required this.image});
-  final dynamic image;
+  const DisplayRecordImage({super.key, required this.record});
+  final RecordModel record;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -15,9 +16,9 @@ class DisplayRecordImage extends StatelessWidget {
           height: 215,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            image: _isImageFile(image)
+            image: _isImageFile(record.image)
                 ? DecorationImage(
-                    image: FileImage(image),
+                    image: FileImage(record.image!),
                     fit: BoxFit.cover,
                   )
                 : null,
@@ -28,6 +29,7 @@ class DisplayRecordImage extends StatelessWidget {
           top: 8,
           child: GestureDetector(
             onTap: () {
+              record.image = null;
               BlocProvider.of<ManageUploadImageCubit>(context).deleteimage();
             },
             child: Container(
