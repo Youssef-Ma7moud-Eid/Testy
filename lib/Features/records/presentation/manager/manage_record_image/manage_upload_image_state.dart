@@ -5,11 +5,18 @@ sealed class ManageUploadImageState {}
 
 final class ManageUploadImageInitial extends ManageUploadImageState {}
 
-final class SuccessImage extends ManageUploadImageState {
-  final String image;
+final class SuccessProcessImage extends ManageUploadImageState {
+  final dynamic image;
 
-  SuccessImage({required this.image});
+  SuccessProcessImage({required this.image});
 }
 
-final class FauilreRecordList extends ManageUploadImageInitial {
+final class FauilreProcessImage extends ManageUploadImageInitial {
+  final String error;
+
+  FauilreProcessImage({required this.error});
 }
+
+final class LoadingImage extends ManageUploadImageInitial {}
+
+final class SuccessDeleteImage extends ManageUploadImageState {}

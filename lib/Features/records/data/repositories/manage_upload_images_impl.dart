@@ -6,13 +6,19 @@ class ManageUploadImagesImpl implements ManageUploadImages {
  
   
   @override
-  Future<Either<String, String>> uploadImage(String image) async {
+  Future<Either<String, dynamic>> addImage(dynamic image) async {
    try {
       return Right(image);
     } catch (e) {
       return Left('Error to add new Record');
     }
   }
-
+ Future<Either<String, String>> deleteImage() async {
+   try {
+      return Right('Success delete image');
+    } catch (e) {
+      return Left('Error to add new Record');
+    }
+  }
   
 }

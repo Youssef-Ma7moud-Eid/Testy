@@ -5,13 +5,15 @@ import 'package:go_router/go_router.dart';
 import 'package:test/Core/utilities/styles.dart';
 import 'package:test/Features/records/data/models/record_model.dart';
 import 'package:test/Features/records/presentation/manager/manage_record/manage_record_cubit.dart';
+import 'package:test/Features/records/presentation/manager/manage_record_image/manage_upload_image_cubit.dart';
 import 'package:test/Features/records/presentation/views/widgets/add_data_section.dart';
 import 'package:test/Features/records/presentation/views/widgets/add_note_section.dart';
+import 'package:test/Features/records/presentation/views/widgets/display_record_image.dart';
 import 'package:test/Features/records/presentation/views/widgets/upload_section.dart';
 
 class NewRecordBody extends StatefulWidget {
-  const NewRecordBody({super.key});
-
+  const NewRecordBody({super.key, this.record});
+  final RecordModel? record;
   @override
   State<NewRecordBody> createState() => _NewRecordBodyState();
 }
@@ -28,10 +30,27 @@ class _NewRecordBodyState extends State<NewRecordBody> {
       autovalidateMode: autovalidateMode,
       child: ListView(
         children: [
-          UPloadSection(
-            onPick: (image, file) {
-              imageOrFile = image ?? file;
-              record.image = imageOrFile;
+          BlocBuilder<ManageUploadImageCubit, ManageUploadImageState>(
+            builder: (context, state) {
+              if (state is SuccessProcessImage) {
+                return DisplayRecordImage(image: state.image);
+              } else if (state is LoadingImage) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.blue,
+                  ),
+                );
+              } else {
+                return UPloadSection(
+                  onPick: (image, file) async {
+                    imageOrFile = image ?? file;
+                    record.image = imageOrFile;
+
+                    await BlocProvider.of<ManageUploadImageCubit>(context)
+                        .addimage(imageOrFile);
+                  },
+                );
+              }
             },
           ),
           SizedBox(

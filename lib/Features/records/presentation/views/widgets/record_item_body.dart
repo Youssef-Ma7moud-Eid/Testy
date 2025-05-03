@@ -6,6 +6,7 @@ import 'package:test/Core/utilities/is_empty_list.dart';
 import 'package:test/Core/utilities/styles.dart';
 import 'package:test/Features/records/data/models/record_model.dart';
 import 'package:test/Features/records/presentation/manager/manage_record/manage_record_cubit.dart';
+import 'package:test/Features/records/presentation/manager/manage_record_image/manage_upload_image_cubit.dart';
 import 'package:test/Features/records/presentation/views/widgets/record_detail_item.dart';
 
 class RecordItemBody extends StatelessWidget {
@@ -23,9 +24,10 @@ class RecordItemBody extends StatelessWidget {
           if (list.isEmpty) {
             return InEmptyList(
               title: title,
-              onPressed: () {
-                GoRouter.of(context)
-                    .push(AppRouter.knewrecordview, extra: title);
+              onPressed: () async {
+                await BlocProvider.of<ManageUploadImageCubit>(context)
+                    .addimage(null);
+                GoRouter.of(context).push(AppRouter.knewrecordview);
               },
             );
           } else if (list.isNotEmpty) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:test/Core/utilities/app_router.dart';
 import 'package:test/Core/utilities/drop_down_class.dart';
 import 'package:test/Core/utilities/styles.dart';
 import 'package:test/Features/records/data/models/record_model.dart';
@@ -43,10 +45,12 @@ class _RecordDetailItemState extends State<RecordDetailItem> {
                           width: width * 0.38,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            image: DecorationImage(
-                              image: AssetImage(widget.record.image!.path),
-                              fit: BoxFit.fill,
-                            ),
+                            image: _isImageFile(widget.record.image)
+                                ? DecorationImage(
+                                    image: FileImage(widget.record.image!),
+                                    fit: BoxFit.fill,
+                                  )
+                                : null,
                           ),
                         )
                       : SizedBox.shrink(),
@@ -76,7 +80,10 @@ class _RecordDetailItemState extends State<RecordDetailItem> {
             child: Opacity(
               opacity: 0.8,
               child: RecordPopupMenu(
-                onEdit: () {},
+                onEdit: () {
+                  GoRouter.of(context)
+                      .push(AppRouter.knewrecordview, extra: widget.record);
+                },
                 onDelete: () {
                   BlocProvider.of<ManageRecordCubit>(context)
                       .deleteRecords(widget.record);
@@ -101,5 +108,23 @@ class _RecordDetailItemState extends State<RecordDetailItem> {
         ],
       ),
     );
+  }
+}
+
+bool _isImageFile(dynamic file) {
+  if (file == null) return false;
+
+  final path;
+
+  try {
+    path = file.path.toLowerCase();
+    return path.endsWith('.png') ||
+        path.endsWith('.jpg') ||
+        path.endsWith('.jpeg') ||
+        path.endsWith('.gif') ||
+        path.endsWith('.bmp') ||
+        path.endsWith('.webp');
+  } catch (e) {
+    return false;
   }
 }
