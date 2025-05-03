@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test/Core/utilities/drop_down_class.dart';
 import 'package:test/Core/utilities/styles.dart';
+import 'package:test/Features/records/data/models/record_model.dart';
+import 'package:test/Features/records/presentation/manager/manage_record/manage_record_cubit.dart';
 
 class RecordDetailItem extends StatefulWidget {
   const RecordDetailItem({
     super.key,
-    required this.detail,
-    required this.image,
+    required this.record,
   });
 
-  final String detail;
-  final String image;
+  final RecordModel record;
 
   @override
   State<RecordDetailItem> createState() => _RecordDetailItemState();
@@ -23,7 +24,7 @@ class _RecordDetailItemState extends State<RecordDetailItem> {
     var width = MediaQuery.of(context).size.width;
 
     return SizedBox(
-      height: height * 0.17,
+      height: height * 0.22,
       child: Stack(
         children: [
           Container(
@@ -36,17 +37,19 @@ class _RecordDetailItemState extends State<RecordDetailItem> {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
               child: Row(
                 children: [
-                  Container(
-                    height: height * 0.15,
-                    width: width * 0.38,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: DecorationImage(
-                        image: AssetImage(widget.image),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
+                  widget.record.image != null
+                      ? Container(
+                          height: height * 0.2,
+                          width: width * 0.38,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: AssetImage(widget.record.image!.path),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        )
+                      : SizedBox.shrink(),
                   SizedBox(width: width * 0.05),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
@@ -55,7 +58,7 @@ class _RecordDetailItemState extends State<RecordDetailItem> {
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          widget.detail,
+                          widget.record.note ?? ' ',
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                           style: Styles.recordcarddetail,
@@ -68,13 +71,16 @@ class _RecordDetailItemState extends State<RecordDetailItem> {
             ),
           ),
           Positioned(
-           left: 360,
+            left: 360,
             top: 15,
             child: Opacity(
               opacity: 0.8,
               child: RecordPopupMenu(
                 onEdit: () {},
-                onDelete: () {},
+                onDelete: () {
+                  BlocProvider.of<ManageRecordCubit>(context)
+                      .deleteRecords(widget.record);
+                },
               ),
             ),
           ),

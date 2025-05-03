@@ -7,15 +7,18 @@ import 'package:test/Core/utilities/fuctions_pick_image.dart';
 import 'package:test/Core/utilities/styles.dart';
 
 class DisplayRecordIcons extends StatefulWidget {
-  const DisplayRecordIcons({super.key});
+  final void Function(File? image, PlatformFile? file)? onPick;
+
+  const DisplayRecordIcons({super.key, this.onPick});
 
   @override
   State<DisplayRecordIcons> createState() => _DisplayRecordIconsState();
 }
 
 class _DisplayRecordIconsState extends State<DisplayRecordIcons> {
-   File? image;
+  File? image;
   PlatformFile? file;
+
   Future<void> pickImage(int choose) async {
     try {
       final picked;
@@ -27,11 +30,12 @@ class _DisplayRecordIconsState extends State<DisplayRecordIcons> {
         picked = await FuctionsPickImage.pickImageCamera();
       }
 
-      if ( choose == 2) {
+      if (choose == 2) {
         file = picked;
-        
+        widget.onPick?.call(null, file);
       } else {
         image = picked;
+        widget.onPick?.call(image, null);
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -39,77 +43,78 @@ class _DisplayRecordIconsState extends State<DisplayRecordIcons> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Text(
-              'Upload',
-              style: Styles.newrecordtitle,
-            ),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Text(
+            'Upload',
+            style: Styles.newrecordtitle,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 50),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    pickImage(1);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 216, 233, 226),
-                    ),
-                    child: Icon(
-                      color: Color.fromARGB(255, 55, 128, 99),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 50),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  pickImage(1);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromARGB(255, 216, 233, 226),
+                  ),
+                  child: Icon(
+                    color: Color.fromARGB(255, 55, 128, 99),
+                    size: 50,
+                    IconlyLight.image,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  pickImage(2);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromARGB(255, 227, 210, 187),
+                  ),
+                  child: Icon(
+                    color: Color.fromARGB(255, 219, 173, 112),
+                    size: 50,
+                    IconlyLight.paper,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  pickImage(3);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromARGB(255, 225, 203, 203),
+                  ),
+                  child: Icon(
+                      color: Color.fromARGB(255, 160, 65, 65),
                       size: 50,
-                      IconlyLight.image,
-                    ),
-                  ),
+                      IconlyLight.camera),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    pickImage(2);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 227, 210, 187),
-                    ),
-                    child: Icon(
-                      color: Color.fromARGB(255, 219, 173, 112),
-                      size: 50,
-                      IconlyLight.paper,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    pickImage(3);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 225, 203, 203),
-                    ),
-                    child: Icon(
-                        color: Color.fromARGB(255, 160, 65, 65),
-                        size: 50,
-                        IconlyLight.camera),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }

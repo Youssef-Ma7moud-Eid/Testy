@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DisplayRecordImage extends StatelessWidget {
-  const DisplayRecordImage({super.key});
-
+  const DisplayRecordImage({super.key, required this.image});
+  final String image;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -14,7 +14,7 @@ class DisplayRecordImage extends StatelessWidget {
           height: 215,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/item1.png'),
+              image: AssetImage(image),
               fit: BoxFit.fill,
             ),
           ),

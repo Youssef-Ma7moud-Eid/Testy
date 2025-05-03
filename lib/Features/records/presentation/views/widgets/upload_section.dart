@@ -1,14 +1,13 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:test/Features/records/presentation/views/widgets/display_record_icons.dart';
 
-class UPloadSection extends StatefulWidget {
-  const UPloadSection({super.key});
+class UPloadSection extends StatelessWidget {
+  final void Function(File? image, PlatformFile? file)? onPick;
 
-  @override
-  _UPloadSectionState createState() => _UPloadSectionState();
-}
-
-class _UPloadSectionState extends State<UPloadSection> {
+  const UPloadSection({super.key, this.onPick});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,9 @@ class _UPloadSectionState extends State<UPloadSection> {
       color: Colors.white60,
       height: 255,
       alignment: Alignment.center,
-      child: DisplayRecordIcons(),
+      child: DisplayRecordIcons(
+        onPick: onPick,
+      ),
     );
   }
 }

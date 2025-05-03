@@ -12,11 +12,12 @@ class RecordItemView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBarRecordView(
         title: title,
-        onTap: () {
+        onTap: () async {
+         
           GoRouter.of(context).push(AppRouter.knewrecordview, extra: title);
         },
       ),
-      body: RecordItemBody(),
+      body: RecordItemBody(title: title,),
     );
   }
 }
