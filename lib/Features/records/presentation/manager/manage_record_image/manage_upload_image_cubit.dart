@@ -28,4 +28,5 @@ class ManageUploadImageCubit extends Cubit<ManageUploadImageState> {
       emit(SuccessDeleteImage());
     });
   }
+  
 }

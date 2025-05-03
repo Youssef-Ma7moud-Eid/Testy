@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,11 +25,13 @@ class _NewRecordBodyState extends State<NewRecordBody> {
   GlobalKey<FormState> formState = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   late RecordModel record;
+  late bool isnew;
 
   @override
   void initState() {
     super.initState();
     record = widget.record ?? RecordModel();
+    isnew = widget.record == null;
   }
 
   @override
@@ -60,35 +64,35 @@ class _NewRecordBodyState extends State<NewRecordBody> {
               }
             },
           ),
-          SizedBox(
-            height: 18,
-          ),
+          const SizedBox(height: 18),
           AddNoteSection(
+            initialNote: record.note,
             onChanges: (data) async {
               record.note = data;
             },
           ),
-          SizedBox(
-            height: 18,
-          ),
+          const SizedBox(height: 18),
           AddDateSection(),
-          SizedBox(
-            height: 30,
-          ),
+          const SizedBox(height: 30),
           GestureDetector(
             onTap: () async {
               if (formState.currentState!.validate()) {
                 if (record.note == null || record.note!.trim().isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('Please enter a note'),
                       backgroundColor: Colors.red,
                     ),
                   );
-                  return;
                 }
-                await BlocProvider.of<ManageRecordCubit>(context)
-                    .addNewRecords(record);
+
+                if (isnew) {
+                  await BlocProvider.of<ManageRecordCubit>(context)
+                      .addNewRecords(record);
+                } else {
+                  await BlocProvider.of<ManageRecordCubit>(context)
+                      .updateRecords(record);
+                }
 
                 await showDialog(
                   context: context,
@@ -98,10 +102,10 @@ class _NewRecordBodyState extends State<NewRecordBody> {
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 7),
-                            padding: EdgeInsets.all(15),
+                            margin: const EdgeInsets.only(top: 7),
+                            padding: const EdgeInsets.all(15),
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 colors: [
                                   Color(0XFF03C5B9),
                                   Color.fromARGB(255, 12, 128, 120),
@@ -109,14 +113,14 @@ class _NewRecordBodyState extends State<NewRecordBody> {
                               ),
                               borderRadius: BorderRadius.circular(100),
                             ),
-                            child: Icon(
+                            child: const Icon(
                               color: Colors.white,
                               FontAwesomeIcons.check,
                               size: 42,
                             ),
                           ),
-                          SizedBox(height: 15),
-                          Text(
+                          const SizedBox(height: 15),
+                          const Text(
                             'Your Record saved',
                             style: Styles.newrecordtitle,
                           ),
@@ -128,6 +132,7 @@ class _NewRecordBodyState extends State<NewRecordBody> {
                     ),
                   ),
                 );
+
                 GoRouter.of(context).pop();
               } else {
                 setState(() {
@@ -138,11 +143,11 @@ class _NewRecordBodyState extends State<NewRecordBody> {
             child: Container(
               alignment: Alignment.center,
               height: 55,
-              margin: EdgeInsets.symmetric(horizontal: 15),
+              margin: const EdgeInsets.symmetric(horizontal: 15),
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [
                     Color.fromARGB(255, 39, 207, 196),
                     Color(0XFF46ACA6),

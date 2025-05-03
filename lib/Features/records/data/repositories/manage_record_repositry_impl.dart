@@ -37,6 +37,10 @@ class ManageRecordRepositryImpl implements ManageRecordRepositry {
 
   @override
   Future<Either<String, RecordModel>> updateRecord(RecordModel record) async {
-    throw UnimplementedError();
+  try {
+      return Right(record);
+    } catch (e) {
+      return Left('Error to add new Record: $e');
+    }
   }
 }

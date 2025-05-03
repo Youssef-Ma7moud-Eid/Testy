@@ -38,9 +38,19 @@ class ManageRecordCubit extends Cubit<ManageRecordState> {
     final recordsResult = await repositry.deleteRecord(model);
     recordsResult.fold(
         (error) =>
-            emit(FauilreProcessOnRecord(message: 'Fauilre to add New Records')),
+            emit(FauilreProcessOnRecord(message: 'Fauilre to delete  Record')),
         (record) {
       list.remove(record);
+      emit(SuccessProcessOnRecord(list: list));
+    });
+  }
+  Future<void> updateRecords(RecordModel model) async {
+    final recordsResult = await repositry.updateRecord(model);
+    recordsResult.fold(
+        (error) =>
+            emit(FauilreProcessOnRecord(message: 'Fauilre to Update  Record')),
+        (record) {
+
       emit(SuccessProcessOnRecord(list: list));
     });
   }

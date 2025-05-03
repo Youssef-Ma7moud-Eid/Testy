@@ -2,17 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:test/Core/utilities/styles.dart';
 
 class AddNoteSection extends StatefulWidget {
-  const AddNoteSection({super.key, this.onChanges});
+  const AddNoteSection({
+    super.key,
+    this.onChanges,
+    this.initialNote,
+  });
   final void Function(String?)? onChanges;
+  final String? initialNote;
+
   @override
   State<AddNoteSection> createState() => _AddNoteSectionState();
 }
 
 class _AddNoteSectionState extends State<AddNoteSection> {
-  final TextEditingController _controller = TextEditingController();
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialNote);
+  }
+
   @override
   void dispose() {
-    _controller.dispose(); // Clean up controller
+    _controller.dispose();
     super.dispose();
   }
 
