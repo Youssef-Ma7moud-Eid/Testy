@@ -10,6 +10,7 @@ import 'package:test/Features/records/presentation/views/widgets/add_data_sectio
 import 'package:test/Features/records/presentation/views/widgets/add_note_section.dart';
 import 'package:test/Features/records/presentation/views/widgets/display_record_image.dart';
 import 'package:test/Features/records/presentation/views/widgets/upload_section.dart';
+import 'dart:io';
 
 class NewRecordBody extends StatefulWidget {
   const NewRecordBody({super.key, this.record});
@@ -21,10 +22,16 @@ class NewRecordBody extends StatefulWidget {
 class _NewRecordBodyState extends State<NewRecordBody> {
   GlobalKey<FormState> formState = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  late RecordModel record;
+
+  @override
+  void initState() {
+    super.initState();
+    record = widget.record ?? RecordModel();
+  }
+
   @override
   Widget build(BuildContext context) {
-    RecordModel record = RecordModel();
-    dynamic imageOrFile;
     return Form(
       key: formState,
       autovalidateMode: autovalidateMode,
@@ -33,6 +40,7 @@ class _NewRecordBodyState extends State<NewRecordBody> {
           BlocBuilder<ManageUploadImageCubit, ManageUploadImageState>(
             builder: (context, state) {
               if (state is SuccessProcessImage) {
+                record.image = state.image as File?;
                 return DisplayRecordImage(image: state.image);
               } else if (state is LoadingImage) {
                 return Center(
@@ -43,11 +51,10 @@ class _NewRecordBodyState extends State<NewRecordBody> {
               } else {
                 return UPloadSection(
                   onPick: (image, file) async {
-                    imageOrFile = image ?? file;
-                    record.image = imageOrFile;
-
+                    final pickedImage = image ?? file;
+                    record.image = pickedImage as File?;
                     await BlocProvider.of<ManageUploadImageCubit>(context)
-                        .addimage(imageOrFile);
+                        .addimage(pickedImage);
                   },
                 );
               }
@@ -71,6 +78,15 @@ class _NewRecordBodyState extends State<NewRecordBody> {
           GestureDetector(
             onTap: () async {
               if (formState.currentState!.validate()) {
+                if (record.note == null || record.note!.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Please enter a note'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
+                }
                 await BlocProvider.of<ManageRecordCubit>(context)
                     .addNewRecords(record);
 
