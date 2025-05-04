@@ -46,13 +46,7 @@ class _NewRecordBodyState extends State<NewRecordBody> {
               if (state is SuccessProcessImage) {
                 record.image = state.image as File?;
                 return DisplayRecordImage(record: record);
-              } else if (state is LoadingImage) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.blue,
-                  ),
-                );
-              } else {
+              }  else {
                 return UPloadSection(
                   onPick: (image, file) async {
                     final pickedImage = image ?? file;

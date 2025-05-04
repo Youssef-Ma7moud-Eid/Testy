@@ -18,4 +18,4 @@ final class FauilreProcessOnRecord extends ManageRecordState {
   FauilreProcessOnRecord({required this.message});
 }
 
-final class LoadingRecordList extends ManageRecordState {}
+

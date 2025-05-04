@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:test/Core/utilities/app_router.dart';
 import 'package:test/Core/utilities/is_empty_list.dart';
-import 'package:test/Core/utilities/styles.dart';
 import 'package:test/Features/records/data/models/record_model.dart';
 import 'package:test/Features/records/presentation/manager/manage_record/manage_record_cubit.dart';
 import 'package:test/Features/records/presentation/manager/manage_record_image/manage_upload_image_cubit.dart';

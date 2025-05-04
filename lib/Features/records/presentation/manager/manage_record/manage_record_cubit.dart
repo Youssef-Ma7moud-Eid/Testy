@@ -11,23 +11,13 @@ class ManageRecordCubit extends Cubit<ManageRecordState> {
   ManageRecordCubit(this.repositry) : super(ManageRecordInitial());
 
   List<RecordModel> list = [];
-  Future<void> loadingRecords() async {
-    emit(LoadingRecordList());
-    // final recordsResult = await repositry.getAllRecords();
-    // recordsResult
-    //     .fold((error) => emit(FauilreRecordList(message: 'No Found Records')),
-    //         (records) {
-    //   list = records;
-
-    // });
-    //   emit(SuccessRecordList(list: list));
-  }
+  Future<void> loadingRecords() async {}
 
   Future<void> addNewRecords(RecordModel model) async {
     final recordsResult = await repositry.addNewRecord(model);
     recordsResult.fold(
         (error) =>
-            emit( FauilreProcessOnRecord(message: 'Fauilre to add New Records')),
+            emit(FauilreProcessOnRecord(message: 'Fauilre to add New Records')),
         (record) {
       list.add(record);
       emit(SuccessProcessOnRecord(list: list));
@@ -44,13 +34,13 @@ class ManageRecordCubit extends Cubit<ManageRecordState> {
       emit(SuccessProcessOnRecord(list: list));
     });
   }
+
   Future<void> updateRecords(RecordModel model) async {
     final recordsResult = await repositry.updateRecord(model);
     recordsResult.fold(
         (error) =>
             emit(FauilreProcessOnRecord(message: 'Fauilre to Update  Record')),
         (record) {
-
       emit(SuccessProcessOnRecord(list: list));
     });
   }
